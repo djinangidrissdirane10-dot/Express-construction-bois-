@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Express Construction Bois — Charpente & Faux Plafonds Premium</title>
+<meta name="description" content="Express Construction Bois : spécialiste de la charpente bois (conception, fabrication, pose) et des faux plafonds premium en panneaux contreplaqué, décoratifs, anti-feu et résistants à l'humidité.">
+<meta name="theme-color" content="#08192D">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2308192D'/%3E%3Ctext x='50' y='66' font-size='58' text-anchor='middle'%3E🪵%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,300..600,0..1,-50..200">
+<style>
+/* ==========================================================================
+   EXPRESS CONSTRUCTION BOIS — design system
+   ========================================================================== */
+:root{
+  --bg:#08192D;
+  --bg2:#10233E;
+  --orange:#FF6B00;
+  --orange-2:#FF9142;
+  --wa:#25D366;
+  --wa-2:#1EBE5B;
+  --white:#FFFFFF;
+  --card:#3B4657;
+  --text2:#D7D7D7;
+  --r-xl:28px;
+  --r-lg:22px;
+  --r-md:16px;
+  --r-sm:10px;
+  --header-h:54px;
+  --nav-h:60px;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{height:100%;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--white);
+  font-family:'Roboto',sans-serif;
+  overflow:hidden;
+  overscroll-behavior:none;
+}
+h1,h2,h3,h4{
+  font-family:'Poppins',sans-serif;
+  margin:0 0 8px;
+  line-height:1.15;
+}
+p{margin:0 0 12px; color:var(--text2); line-height:1.6;}
+a{color:inherit; text-decoration:none;}
+button{font-family:inherit; cursor:pointer;}
+img{max-width:100%; display:block;}
+.material-symbols-outlined{
+  font-variation-settings:'FILL' 0,'wght' 500,'GRAD' 0,'opsz' 24;
+  vertical-align:middle;
+}
+
+/* ---------- Splash ---------- */
+#splash{
+  position:fixed; inset:0; z-index:9999;
+  background:radial-gradient(circle at 50% 35%, var(--bg2), var(--bg));
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:18px; transition:opacity .5s var(--ease), visibility .5s;
+}
+#splash.hide{opacity:0; visibility:hidden; pointer-events:none;}
+.splash-logo{
+  width:84px; height:84px; border-radius:26px;
+  background:linear-gradient(135deg,var(--orange),var(--orange-2));
+  display:flex; align-items:center; justify-content:center;
+  font-size:40px; box-shadow:0 12px 34px rgba(255,107,0,.4);
+  animation:pop .6s var(--ease);
+}
+.splash-title{font-size:15px; letter-spacing:.2px; color:var(--text2); font-family:'Poppins',sans-serif; font-weight:600;}
+.splash-dots{display:flex; gap:6px;}
+.splash-dots span{width:7px; height:7px; border-radius:50%; background:var(--orange); animation:blink 1.1s infinite ease-in-out;}
+.splash-dots span:nth-child(2){animation-delay:.15s;}
+.splash-dots span:nth-child(3){animation-delay:.3s;}
+@keyframes pop{from{transform:scale(.6); opacity:0;} to{transform:scale(1); opacity:1;}}
+@keyframes blink{0%,80%,100%{opacity:.25; transform:scale(.8);} 40%{opacity:1; transform:scale(1);}}
+
+/* ---------- App shell ---------- */
+#app{position:fixed; inset:0; display:flex; flex-direction:column;}
+
+/* ---------- Header ---------- */
+.topbar{
+  height:var(--header-h); flex:0 0 auto; z-index:40;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 16px;
+  background:rgba(16,35,62,.72);
+  backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.brand{display:flex; align-items:center; gap:8px; min-width:0;}
+.brand-mark{
+  width:32px; height:32px; border-radius:10px; flex:0 0 auto;
+  background:linear-gradient(135deg,var(--orange),var(--orange-2));
+  display:flex; align-items:center; justify-content:center; font-size:16px;
+  box-shadow:0 4px 14px rgba(255,107,0,.35);
+}
+.brand-text{min-width:0;}
+.brand-text .name{font-family:'Poppins',sans-serif; font-weight:700; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.brand-text .tag{font-size:8.5px; color:var(--text2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.icon-btn{
+  width:34px; height:34px; border-radius:50%; border:none;
+  background:rgba(255,255,255,.08);
+  display:flex; align-items:center; justify-content:center; color:var(--white);
+  transition:background .2s var(--ease), transform .15s var(--ease);
+}
+.icon-btn:active{transform:scale(.9); background:rgba(255,255,255,.16);}
+
+/* ---------- WhatsApp floating button ---------- */
+.wa-float{
+  position:fixed; right:14px; bottom:calc(var(--nav-h) + 14px); z-index:60;
+  width:50px; height:50px; border-radius:50%; border:none;
+  background:linear-gradient(135deg,var(--wa),var(--wa-2));
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 10px 26px rgba(37,211,102,.45);
+  animation:wa-pulse 2.6s infinite var(--ease);
+}
+.wa-float svg{width:24px; height:24px;}
+.wa-float:active{transform:scale(.92);}
+@keyframes wa-pulse{
+  0%{box-shadow:0 10px 26px rgba(37,211,102,.45), 0 0 0 0 rgba(37,211,102,.55);}
+  70%{box-shadow:0 10px 26px rgba(37,211,102,.45), 0 0 0 16px rgba(37,211,102,0);}
+  100%{box-shadow:0 10px 26px rgba(37,211,102,.45), 0 0 0 0 rgba(37,211,102,0);}
+}
+
+/* ---------- Screens ---------- */
+#screens{position:relative; flex:1 1 auto; min-height:0;}
+.screen{
+  position:absolute; inset:0;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  opacity:0; visibility:hidden; pointer-events:none;
+  transform:translateY(10px);
+  transition:opacity .32s var(--ease), transform .32s var(--ease), visibility .32s;
+  padding-bottom:28px;
+}
+.screen.active{opacity:1; visibility:visible; pointer-events:auto; transform:translateY(0);}
+.screen::-webkit-scrollbar{width:0;}
+
+.screen-head{
+  padding:22px 20px 6px;
+}
+.screen-head .eyebrow-icon{
+  width:46px; height:46px; border-radius:16px;
+  background:rgba(255,107,0,.14); color:var(--orange);
+  display:flex; align-items:center; justify-content:center; margin-bottom:12px;
+}
+.screen-head h2{font-size:22px; font-weight:800;}
+.screen-head p{max-width:46ch;}
+
+.section-pad{padding:14px 20px 6px;}
+
+/* ---------- Home / Hero ---------- */
+.hero{
+  position:relative; overflow:hidden;
+  background:
+    linear-gradient(135deg, #0c2440 0%, #123a63 55%, #0a1a2f 100%),
+    url('images/moderne.jpg') center/cover no-repeat;
+}
+.hero-video{
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; z-index:0;
+}
+.hero::before{ /* subtle roof-beam pattern, works even without a photo/video */
+  content:''; position:absolute; inset:0; opacity:.14; pointer-events:none; z-index:1;
+  background:repeating-linear-gradient(115deg, rgba(255,255,255,.5) 0 2px, transparent 2px 46px);
+}
+.hero-overlay{
+  position:absolute; inset:0; z-index:2; pointer-events:none;
+  background:linear-gradient(180deg, rgba(8,19,45,.35) 0%, rgba(8,19,45,.55) 45%, var(--bg) 96%);
+}
+.hero-content{
+  position:relative; z-index:3;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  padding:14px 18px 12px;
+}
+.hero-badge{
+  align-self:flex-start;
+  display:inline-flex; align-items:center; gap:5px;
+  background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18);
+  padding:5px 11px; border-radius:999px; font-size:10px; font-weight:600;
+  letter-spacing:.2px; color:var(--text2); backdrop-filter:blur(6px); margin-bottom:8px;
+}
+.hero-badge .material-symbols-outlined{font-size:13px; color:var(--orange);}
+.hero-flash-btn{
+  display:flex; align-items:center; justify-content:center; gap:6px;
+  width:100%; border:none; border-radius:13px; padding:9px 12px;
+  background:linear-gradient(135deg,var(--wa),var(--wa-2));
+  color:var(--white); font-weight:700; font-size:10.5px; line-height:1.2; text-align:center;
+  box-shadow:0 8px 20px rgba(37,211,102,.45);
+  margin-bottom:8px;
+  animation:flash-blink 1.4s infinite;
+}
+.hero-flash-btn:active{transform:scale(.97);}
+.hero-flash-btn .material-symbols-outlined{font-size:16px; flex:0 0 auto;}
+@keyframes flash-blink{
+  0%, 100%{ opacity:1; box-shadow:0 8px 20px rgba(37,211,102,.45); }
+  50%{ opacity:.6; box-shadow:0 8px 30px rgba(37,211,102,.8); }
+}
+.hero h1{
+  font-size:clamp(20px,6.5vw,26px); font-weight:800; letter-spacing:.2px;
+  text-shadow:0 4px 24px rgba(0,0,0,.4); margin-bottom:4px;
+}
+.hero .sub{font-size:12px; color:var(--text2); max-width:34ch; margin-bottom:10px; line-height:1.4;}
+.hero-ctas{display:flex; flex-direction:column; gap:7px;}
+.hero-ctas .row{display:flex; gap:7px;}
+
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:6px;
+  border:none; border-radius:999px; padding:10px 16px;
+  font-weight:600; font-size:12px; color:var(--white);
+  transition:transform .15s var(--ease), box-shadow .2s var(--ease), filter .2s var(--ease);
+  flex:1;
+}
+.btn:active{transform:scale(.96);}
+.btn .material-symbols-outlined{font-size:16px;}
+.btn-orange{background:linear-gradient(135deg,var(--orange),var(--orange-2)); box-shadow:0 8px 20px rgba(255,107,0,.35);}
+.btn-wa{background:linear-gradient(135deg,var(--wa),var(--wa-2)); box-shadow:0 8px 20px rgba(37,211,102,.32);}
+.btn-outline{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.22); box-shadow:none;}
+.btn-full{width:100%;}
+.btn-lg{padding:11px 18px; font-size:12.5px;}
+
+/* ---------- App grid (menu) ---------- */
+#screen-home{display:flex; flex-direction:column; padding-bottom:8px;}
+.grid-title{padding:10px 18px 2px; margin-top:auto;}
+.grid-title h3{font-size:12.5px; font-weight:700; color:var(--text2); text-transform:none;}
+.app-grid{
+  display:grid; grid-template-columns:repeat(4,1fr); gap:8px;
+  padding:8px 18px 4px;
+}
+.app-tile{
+  background:rgba(59,70,87,.55);
+  border:1px solid rgba(255,255,255,.07);
+  backdrop-filter:blur(10px);
+  border-radius:var(--r-md);
+  padding:10px 4px 8px;
+  display:flex; flex-direction:column; align-items:center; gap:5px; text-align:center;
+  box-shadow:0 6px 16px rgba(0,0,0,.22);
+  transition:transform .15s var(--ease), background .2s var(--ease);
+}
+.app-tile:active{transform:scale(.94); background:rgba(59,70,87,.8);}
+.app-tile .tile-ic{
+  width:34px; height:34px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(255,107,0,.15); color:var(--orange);
+}
+.app-tile .tile-ic .material-symbols-outlined{font-size:18px;}
+.app-tile span.label{font-size:9px; font-weight:600; color:var(--white); line-height:1.15;}
+#screen-home .footer-mini{display:none;}
+
+/* ---------- Cards / Services ---------- */
+.service-card{
+  margin:14px 20px; border-radius:var(--r-xl);
+  background:linear-gradient(180deg, rgba(59,70,87,.65), rgba(59,70,87,.42));
+  border:1px solid rgba(255,255,255,.07);
+  box-shadow:0 16px 34px rgba(0,0,0,.32);
+  overflow:hidden;
+}
+.service-top{
+  padding:20px 20px 14px; display:flex; gap:14px; align-items:flex-start;
+}
+.service-top .ic{
+  width:52px; height:52px; border-radius:16px; flex:0 0 auto;
+  background:linear-gradient(135deg,var(--orange),var(--orange-2));
+  display:flex; align-items:center; justify-content:center; box-shadow:0 8px 18px rgba(255,107,0,.3);
+}
+.service-top h3{font-size:17px; font-weight:800;}
+.service-body{padding:0 20px 6px;}
+.tag-row{display:flex; flex-wrap:wrap; gap:8px; padding:0 20px 16px;}
+.tag-chip{
+  font-size:11px; font-weight:600; padding:6px 12px; border-radius:999px;
+  background:rgba(255,255,255,.08); color:var(--text2); border:1px solid rgba(255,255,255,.1);
+}
+.media-row{display:flex; gap:10px; overflow-x:auto; padding:2px 20px 20px; scrollbar-width:none;}
+.media-row::-webkit-scrollbar{display:none;}
+.photo-card{
+  flex:0 0 auto; width:128px; height:96px; border-radius:var(--r-md);
+  position:relative; overflow:hidden; background:var(--bg2);
+  border:1px solid rgba(255,255,255,.08);
+  cursor:pointer; transition:transform .15s var(--ease);
+}
+.photo-card:active{transform:scale(.95);}
+.photo-card img{width:100%; height:100%; object-fit:cover;}
+.photo-placeholder{
+  position:absolute; inset:0; display:none; flex-direction:column; align-items:center; justify-content:center; gap:4px;
+  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); color:var(--text2);
+}
+.photo-placeholder .material-symbols-outlined{font-size:22px; opacity:.7;}
+.photo-placeholder p{margin:0; font-size:9.5px;}
+.video-card{position:relative;}
+.video-card .play{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  background:rgba(8,19,45,.35);
+}
+.video-card .play .material-symbols-outlined{
+  font-size:30px; background:rgba(255,255,255,.9); color:var(--bg); border-radius:50%; padding:6px;
+}
+
+/* ---------- Tabs (Réalisations) ---------- */
+.tabs{display:flex; gap:8px; padding:6px 20px 4px; overflow-x:auto; scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab-btn{
+  flex:0 0 auto; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05);
+  color:var(--text2); padding:9px 16px; border-radius:999px; font-size:12.5px; font-weight:600;
+  display:flex; align-items:center; gap:6px; transition:all .2s var(--ease);
+}
+.tab-btn .material-symbols-outlined{font-size:16px;}
+.tab-btn.active{background:linear-gradient(135deg,var(--orange),var(--orange-2)); color:var(--white); border-color:transparent;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.gallery-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px; padding:14px 20px 6px;}
+.gallery-grid .photo-card{width:auto; height:118px;}
+.compare-block{margin:0 20px 16px; border-radius:var(--r-lg); overflow:hidden; border:1px solid rgba(255,255,255,.08); background:rgba(59,70,87,.4);}
+.compare-imgs{display:grid; grid-template-columns:1fr 1fr;}
+.compare-imgs .photo-card{width:auto; height:130px; border-radius:0;}
+.compare-label{display:flex;}
+.compare-label span{flex:1; text-align:center; font-size:11px; font-weight:700; padding:8px 0; color:var(--text2);}
+.compare-caption{padding:10px 14px 14px; font-size:12.5px;}
+
+/* ---------- Cards generic ---------- */
+.info-card{
+  margin:12px 20px; padding:18px; border-radius:var(--r-lg);
+  background:rgba(59,70,87,.5); border:1px solid rgba(255,255,255,.07);
+  box-shadow:0 10px 24px rgba(0,0,0,.25);
+}
+.info-card h4{font-size:14.5px; font-weight:700; display:flex; align-items:center; gap:8px;}
+.info-card h4 .material-symbols-outlined{color:var(--orange); font-size:19px;}
+
+/* ---------- Stats row (About) ---------- */
+.stat-row{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; padding:6px 20px 4px;}
+.stat{
+  background:rgba(59,70,87,.5); border:1px solid rgba(255,255,255,.07); border-radius:var(--r-md);
+  padding:14px 8px; text-align:center;
+}
+.stat b{display:block; font-family:'Poppins',sans-serif; font-size:19px; color:var(--orange);}
+.stat span{font-size:10.5px; color:var(--text2);}
+
+/* ---------- Testimonials ---------- */
+.review-card{
+  margin:12px 20px; padding:18px; border-radius:var(--r-lg);
+  background:rgba(59,70,87,.5); border:1px solid rgba(255,255,255,.07);
+}
+.review-top{display:flex; align-items:center; gap:12px; margin-bottom:8px;}
+.avatar{
+  width:42px; height:42px; border-radius:50%; flex:0 0 auto;
+  background:linear-gradient(135deg,var(--orange),var(--orange-2));
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-family:'Poppins',sans-serif;
+}
+.review-name{font-weight:700; font-size:13.5px;}
+.review-loc{font-size:10.5px; color:var(--text2);}
+.stars{color:var(--orange); font-size:14px; letter-spacing:1px;}
+.review-card p{font-size:13px; margin:0;}
+
+/* ---------- News ---------- */
+.news-card{
+  margin:12px 20px; border-radius:var(--r-lg); overflow:hidden;
+  background:rgba(59,70,87,.5); border:1px solid rgba(255,255,255,.07); display:flex; gap:12px; padding:12px;
+}
+.news-ic{width:46px; height:46px; border-radius:14px; background:rgba(255,107,0,.15); color:var(--orange); display:flex; align-items:center; justify-content:center; flex:0 0 auto;}
+.news-date{font-size:10.5px; color:var(--orange); font-weight:700; margin-bottom:2px;}
+.news-card h4{font-size:13.5px; margin-bottom:4px;}
+.news-card p{font-size:12px; margin:0;}
+
+/* ---------- Form (Devis) ---------- */
+.form-wrap{padding:6px 20px 20px;}
+.field{margin-bottom:14px;}
+.field label{display:block; font-size:12px; font-weight:600; color:var(--text2); margin-bottom:6px;}
+.field input, .field select, .field textarea{
+  width:100%; padding:14px; border-radius:var(--r-md); border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.05); color:var(--white); font-family:'Roboto',sans-serif; font-size:14px;
+  outline:none; transition:border-color .2s var(--ease), background .2s var(--ease);
+}
+.field input::placeholder, .field textarea::placeholder{color:#8b93a3;}
+.field input:focus, .field select:focus, .field textarea:focus{border-color:var(--orange); background:rgba(255,255,255,.08);}
+.field textarea{resize:vertical; min-height:90px;}
+.chip-select{display:flex; flex-wrap:wrap; gap:8px;}
+.chip-select input{display:none;}
+.chip-select label{
+  padding:10px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.05); font-size:12.5px; font-weight:600; color:var(--text2);
+  transition:all .2s var(--ease);
+}
+.chip-select input:checked + label{background:linear-gradient(135deg,var(--orange),var(--orange-2)); color:var(--white); border-color:transparent;}
+.form-note{font-size:11.5px; color:#8b93a3; display:flex; gap:6px; align-items:flex-start; margin-top:4px;}
+.form-note .material-symbols-outlined{font-size:16px; color:var(--wa); flex:0 0 auto;}
+
+/* ---------- Estimateur de devis en direct ---------- */
+.estimator-options{display:flex; flex-direction:column; gap:10px;}
+.estimator-options input{position:absolute; opacity:0; pointer-events:none;}
+.option-card{
+  display:flex; align-items:center; gap:12px; padding:14px; border-radius:var(--r-lg);
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.12);
+  transition:border-color .2s var(--ease), background .2s var(--ease), transform .15s var(--ease);
+}
+.option-card:active{transform:scale(.98);}
+.option-ic{
+  width:44px; height:44px; border-radius:14px; flex:0 0 auto;
+  background:rgba(255,255,255,.08); color:var(--text2);
+  display:flex; align-items:center; justify-content:center;
+  transition:background .2s var(--ease), color .2s var(--ease);
+}
+.option-info{display:flex; flex-direction:column; gap:2px; flex:1; min-width:0;}
+.option-title{font-size:13px; font-weight:700; color:var(--white);}
+.option-price{font-size:11.5px; color:var(--text2); font-weight:600;}
+.option-check{color:rgba(255,255,255,.18); font-size:22px; flex:0 0 auto; transition:color .2s var(--ease);}
+.estimator-options input:checked + .option-card{border-color:var(--orange); background:rgba(255,107,0,.1);}
+.estimator-options input:checked + .option-card .option-ic{background:linear-gradient(135deg,var(--orange),var(--orange-2)); color:var(--white);}
+.estimator-options input:checked + .option-card .option-check{color:var(--orange);}
+
+.surface-input{position:relative;}
+.surface-input input{padding-right:52px;}
+.surface-unit{
+  position:absolute; right:14px; top:50%; transform:translateY(-50%);
+  font-size:13px; font-weight:700; color:var(--text2); pointer-events:none;
+}
+
+.estim-result{
+  margin:6px 0 18px; padding:20px; border-radius:var(--r-xl); text-align:center;
+  background:linear-gradient(160deg, rgba(255,107,0,.16), rgba(59,70,87,.5));
+  border:1px solid rgba(255,107,0,.3);
+}
+.estim-result-label{font-size:11.5px; color:var(--text2); display:block; margin-bottom:6px;}
+.estim-result-label b{color:var(--white);}
+.estim-total{
+  font-family:'Poppins',sans-serif; font-weight:800; font-size:clamp(26px,8vw,34px);
+  color:var(--orange); letter-spacing:.2px;
+}
+.estim-detail{font-size:12px; color:var(--text2); margin-top:4px;}
+
+/* ---------- Estimateur plafond CP (devis détaillé) ---------- */
+.cp-estimator-wrap{padding:6px 20px 20px;}
+.cp-container{
+  background:#fff; color:#222; border-radius:var(--r-lg); overflow:hidden;
+  box-shadow:0 14px 34px rgba(0,0,0,.35); padding:14px;
+}
+.cp-header{text-align:center; margin-bottom:10px; border-bottom:1.5px solid #0056b3; padding-bottom:8px;}
+.cp-header h2{color:#0056b3; font-size:15px; text-transform:uppercase; margin:0 0 2px; font-family:'Poppins',sans-serif;}
+.cp-header p{font-size:11px; color:#555; margin:0;}
+.cp-input-group{
+  margin-bottom:10px; background:#eef2f7; padding:10px 12px; border-radius:10px;
+  display:flex; justify-content:space-between; align-items:center; gap:10px;
+}
+.cp-input-group label{font-weight:700; color:#222; font-size:12.5px;}
+.cp-input-group input{
+  width:120px; padding:8px; font-size:12.5px; border:1px solid #ccc; border-radius:8px;
+  text-align:center; color:#222; background:#fff; outline:none;
+}
+.cp-input-group input:focus{border-color:#0056b3;}
+.cp-table-responsive{width:100%; margin-bottom:10px; border:1px solid #ddd; border-radius:8px; overflow:hidden;}
+.cp-table-responsive table{width:100%; border-collapse:collapse; font-size:10.5px;}
+.cp-table-responsive th, .cp-table-responsive td{border:1px solid #e2e6ea; padding:5px 6px; text-align:left; color:#222;}
+.cp-table-responsive th{background:#0056b3; color:#fff; text-align:center; font-size:10px;}
+.cp-table-responsive td:nth-child(1){text-align:center; width:22px;}
+.cp-table-responsive td:nth-child(3){text-align:center; width:38px;}
+.cp-table-responsive td:nth-child(4), .cp-table-responsive td:nth-child(5){text-align:right; width:60px;}
+.cp-totals-section{background:#f9f9f9; padding:10px 12px; border-radius:8px; border:1px solid #e2e6ea;}
+.cp-total-row{display:flex; justify-content:space-between; margin-bottom:4px; font-size:12px; color:#222;}
+.cp-total-row.cp-grand-total{font-weight:800; color:#0056b3; font-size:14px; border-top:1px solid #ccc; padding-top:6px; margin-top:4px;}
+
+/* ---------- Hub de choix (Calculer votre devis) ---------- */
+.estim-hub-list{display:flex; flex-direction:column; gap:12px; padding:6px 20px 20px;}
+.estim-hub-card{
+  width:100%; display:flex; align-items:center; gap:12px; padding:16px; border-radius:var(--r-lg);
+  background:rgba(59,70,87,.5); border:1px solid rgba(255,255,255,.08); color:var(--white);
+  transition:transform .15s var(--ease), background .2s var(--ease);
+}
+.estim-hub-card:active{transform:scale(.97); background:rgba(59,70,87,.75);}
+.estim-hub-card .num-badge{
+  width:24px; height:24px; border-radius:50%; flex:0 0 auto;
+  background:rgba(255,255,255,.12); color:var(--white); font-size:11px; font-weight:800;
+  display:flex; align-items:center; justify-content:center;
+}
+.estim-hub-card .ic{
+  width:48px; height:48px; border-radius:15px; flex:0 0 auto;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,var(--orange),var(--orange-2)); color:var(--white);
+  box-shadow:0 8px 18px rgba(255,107,0,.3);
+}
+.estim-hub-card .info{flex:1; min-width:0; text-align:left;}
+.estim-hub-card .info .t{font-size:13.5px; font-weight:700; color:var(--white); margin-bottom:2px;}
+.estim-hub-card .info .s{font-size:11px; color:var(--text2);}
+.estim-hub-card .chev{color:var(--text2); flex:0 0 auto;}
+.estim-hub-card.soon{opacity:.65;}
+.estim-hub-card.soon .ic{background:rgba(255,255,255,.08); color:var(--text2); box-shadow:none;}
+
+/* ---------- Contact ---------- */
+.contact-row{display:flex; align-items:center; gap:14px; margin:12px 20px; padding:16px; border-radius:var(--r-lg); background:rgba(59,70,87,.5); border:1px solid rgba(255,255,255,.07);}
+.contact-row .ic{width:44px; height:44px; border-radius:13px; display:flex; align-items:center; justify-content:center; flex:0 0 auto;}
+.contact-row .ic.orange{background:rgba(255,107,0,.15); color:var(--orange);}
+.contact-row .ic.wa{background:rgba(37,211,102,.15); color:var(--wa);}
+.contact-row .lbl{font-size:11px; color:var(--text2);}
+.contact-row .val{font-size:14px; font-weight:700;}
+.map-block{
+  margin:16px 20px; height:150px; border-radius:var(--r-lg); overflow:hidden;
+  background:
+    repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0 10px, transparent 10px 20px),
+    linear-gradient(135deg,var(--bg2),var(--bg));
+  border:1px solid rgba(255,255,255,.08);
+  display:flex; align-items:center; justify-content:center; flex-direction:column; gap:6px;
+}
+.map-block .material-symbols-outlined{font-size:30px; color:var(--orange);}
+.map-block span{font-size:11.5px; color:var(--text2);}
+
+/* ---------- Lightbox plein écran (images & vidéos) ---------- */
+.lightbox{
+  position:fixed; inset:0; z-index:200;
+  background:rgba(3,9,18,.94);
+  display:flex; align-items:center; justify-content:center; padding:20px;
+  opacity:0; visibility:hidden; pointer-events:none;
+  transition:opacity .3s var(--ease), visibility .3s;
+}
+.lightbox.active{opacity:1; visibility:visible; pointer-events:auto;}
+.lightbox-media{
+  max-width:100%; max-height:100%; width:100%;
+  border-radius:var(--r-lg); overflow:hidden;
+  box-shadow:0 24px 70px rgba(0,0,0,.6);
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg2);
+  touch-action:pan-y;
+}
+.lightbox-media img{
+  max-width:100%; max-height:80dvh; width:auto; height:auto; display:block; border-radius:var(--r-lg);
+}
+.lightbox-yt-wrap{
+  position:relative; width:100%; max-width:920px; aspect-ratio:16/9; border-radius:var(--r-lg); overflow:hidden;
+}
+.lightbox-yt-wrap iframe{width:100%; height:100%; border:none; display:block;}
+.lightbox-fallback{
+  display:none; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+  padding:60px 30px; color:var(--text2);
+}
+.lightbox-fallback .material-symbols-outlined{font-size:36px; color:var(--orange);}
+.lightbox-close{
+  position:absolute; top:max(16px, env(safe-area-inset-top)); right:16px; z-index:3;
+  width:46px; height:46px; border-radius:50%; border:none;
+  background:rgba(255,255,255,.12); backdrop-filter:blur(8px);
+  color:var(--white); display:flex; align-items:center; justify-content:center;
+  transition:transform .15s var(--ease), background .2s var(--ease);
+}
+.lightbox-close:active{transform:scale(.9); background:rgba(255,255,255,.2);}
+.lightbox-arrow{
+  position:absolute; top:50%; transform:translateY(-50%); z-index:3;
+  width:44px; height:44px; border-radius:50%; border:none;
+  background:rgba(255,255,255,.12); backdrop-filter:blur(8px);
+  color:var(--white); display:flex; align-items:center; justify-content:center;
+  transition:background .2s var(--ease), transform .15s var(--ease);
+}
+.lightbox-arrow:active{transform:translateY(-50%) scale(.9); background:rgba(255,255,255,.22);}
+.lightbox-arrow-left{left:10px;}
+.lightbox-arrow-right{right:10px;}
+.lightbox-arrow[hidden]{display:none;}
+.lightbox-counter{
+  position:absolute; bottom:max(18px, env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); z-index:3;
+  background:rgba(255,255,255,.12); backdrop-filter:blur(8px);
+  color:var(--white); font-size:11.5px; font-weight:700;
+  padding:6px 14px; border-radius:999px;
+}
+
+/* ---------- Bottom nav ---------- */
+.bottomnav{
+  flex:0 0 auto; height:var(--nav-h); z-index:50;
+  display:flex; align-items:center; justify-content:space-around;
+  background:linear-gradient(180deg, #0c1f38 0%, #071427 100%);
+  border-top:2px solid rgba(255,107,0,.3);
+  box-shadow:0 -8px 20px rgba(0,0,0,.35);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.bottomnav button{
+  background:none; border:none; color:#8b93a3;
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  padding:6px 2px; border-radius:12px; min-width:0; flex:1 1 0;
+  transition:color .2s var(--ease), transform .15s var(--ease);
+}
+.bottomnav button .material-symbols-outlined{font-size:18px; transition:font-variation-settings .2s var(--ease);}
+.bottomnav button span.lbl{font-size:8.5px; font-weight:600; white-space:nowrap;}
+.bottomnav button:active{transform:scale(.9);}
+.bottomnav button.active{color:var(--orange);}
+.bottomnav button.active .material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24;}
+
+/* ---------- misc ---------- */
+.divider{height:1px; background:rgba(255,255,255,.07); margin:6px 20px 0;}
+.center-cta{padding:8px 20px 22px;}
+.footer-mini{padding:18px 20px 4px; text-align:center; font-size:10.5px; color:#65708a;}
+
+@media (min-width:640px){
+  .app-grid{grid-template-columns:repeat(4,1fr);}
+  .gallery-grid{grid-template-columns:repeat(3,1fr);}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important; transition:none !important;}
+}
+
+  /* ==========================================
+       Styles pour la galerie photos des avis
+       ========================================== */
+
+    .toggle-photos-btn {
+      background-color: #f0f4f8;
+      color: #2c3e50;
+      border: 1px solid #cbd5e1;
+      padding: 8px 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 12px;
+      font-weight: 500;
+    }
+
+    .chantier-gallery {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed #cbd5e1;
+    }
+
+    .gallery-grid-multi {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .gallery-grid-multi img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+    }
+  
+</style>
+</head>
+<body>
+
+<!-- Écran de démarrage type application -->
+<div id="splash">
+  <div class="splash-logo">🪵</div>
+  <div class="splash-title">EXPRESS CONSTRUCTION BOIS</div>
+  <div class="splash-dots"><span></span><span></span><span></span></div>
+</div>
+
+<div id="app">
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">🪵</div>
+      <div class="brand-text">
+        <div class="name">Express Construction Bois</div>
+        <div class="tag">Charpente & Faux Plafonds Premium</div>
+      </div>
+    </div>
+    <a class="icon-btn" href="tel:+237672041452" aria-label="Appeler Express Construction Bois">
+      <span class="material-symbols-outlined">call</span>
+    </a>
+  </header>
+
+  <!-- ===================== BOUTON WHATSAPP FLOTTANT ===================== -->
+  <button class="wa-float" onclick="openWhatsApp()" aria-label="Contacter sur WhatsApp">
+    <svg viewBox="0 0 32 32" fill="white"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.3.6 4.4 1.7 6.3L4 29l7.9-1.6c1.8 1 3.9 1.5 6.1 1.5 6.6 0 12-5.4 12-12S22.6 3 16 3zm0 21.8c-1.9 0-3.7-.5-5.3-1.4l-.4-.2-4.4.9.9-4.3-.2-.4C5.6 17.7 5 16.4 5 15c0-6.1 5-11 11-11s11 4.9 11 11-4.9 11-11 11zm6.1-8.3c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7.2-.2.3-.4.5-.6.2-.2.2-.4.3-.6.1-.2 0-.5 0-.7-.1-.2-.8-1.9-1.1-2.6-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.2-1.2 2.9 0 1.7 1.3 3.4 1.4 3.6.2.2 2.6 4 6.3 5.5.9.4 1.6.6 2.1.7.9.3 1.7.2 2.3.1.7-.1 2-.8 2.3-1.6.3-.8.3-1.5.2-1.6-.1-.2-.3-.3-.6-.4z"/></svg>
+  </button>
+
+  <!-- ===================== ÉCRANS ===================== -->
+  <main id="screens">
+
+    <!-- ---------- ACCUEIL ---------- -->
+    <section id="screen-home" class="screen active">
+      <div class="hero">
+        <video class="hero-video" autoplay muted loop playsinline poster="images/moderne.jpg" onerror="this.style.display='none';">
+          <source src="videos/chantier1.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <div class="hero-badge"><span class="material-symbols-outlined">verified</span> Artisans charpentiers certifiés</div>
+          <button class="hero-flash-btn" onclick="showScreen('estim-hub')">
+            <span class="material-symbols-outlined">calculate</span>
+            <span>CALCULER VOTRE DEVIS DIRECTEMENT ICI</span>
+          </button>
+          <div class="hero-ctas">
+            <div class="row">
+              <a class="btn btn-outline" href="tel:+237672041452"><span class="material-symbols-outlined">call</span> Appeler</a>
+              <button class="btn btn-wa" onclick="openWhatsApp()"><span class="material-symbols-outlined">chat</span> WhatsApp</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-title"><h3>Explorer</h3></div>
+      <div class="app-grid">
+        <button class="app-tile" onclick="showScreen('about')">
+          <div class="tile-ic"><span class="material-symbols-outlined">groups</span></div>
+          <span class="label">À propos</span>
+        </button>
+        <button class="app-tile" onclick="showScreen('services')">
+          <div class="tile-ic"><span class="material-symbols-outlined">roofing</span></div>
+          <span class="label">Nos services</span>
+        </button>
+        <button class="app-tile" onclick="showScreen('realisations','avant-apres')">
+          <div class="tile-ic"><span class="material-symbols-outlined">compare</span></div>
+          <span class="label">Avant / Après</span>
+        </button>
+        <button class="app-tile" onclick="showScreen('realisations','galerie')">
+          <div class="tile-ic"><span class="material-symbols-outlined">collections</span></div>
+          <span class="label">Galerie</span>
+        </button>
+        <button class="app-tile" onclick="showScreen('realisations','videos')">
+          <div class="tile-ic"><span class="material-symbols-outlined">play_circle</span></div>
+          <span class="label">Vidéos</span>
+        </button>
+        <button class="app-tile" onclick="showScreen('actualites')">
+          <div class="tile-ic"><span class="material-symbols-outlined">campaign</span></div>
+          <span class="label">Actualités</span>
+        </button>
+        <button class="app-tile" onclick="showScreen('avis')">
+          <div class="tile-ic"><span class="material-symbols-outlined">star</span></div>
+          <span class="label">Témoignages</span>
+        </button>
+        <button class="app-tile" onclick="showScreen('contact')">
+          <div class="tile-ic"><span class="material-symbols-outlined">call</span></div>
+          <span class="label">Contact</span>
+        </button>
+      </div>
+      <div class="footer-mini">Express Construction Bois — Charpente Bois & Faux Plafonds Premium</div>
+    </section>
+
+    <!-- ---------- À PROPOS ---------- -->
+    <section id="screen-about" class="screen">
+      <div class="screen-head">
+        <div class="eyebrow-icon"><span class="material-symbols-outlined">groups</span></div>
+        <h2>À propos de nous</h2>
+        <p>Express Construction Bois conçoit, fabrique et pose des charpentes bois sur mesure, et réalise des faux plafonds premium pensés pour durer.</p>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><b>100%</b><span>Sur mesure</span></div>
+        <div class="stat"><b>2</b><span>Métiers experts</span></div>
+        <div class="stat"><b>7j/7</b><span>Disponibilité</span></div>
+      </div>
+      <div class="info-card">
+        <h4><span class="material-symbols-outlined">handyman</span> Notre savoir-faire</h4>
+        <p>Nous intervenons uniquement sur deux domaines que nous maîtrisons parfaitement : la charpente bois (conception, fabrication et pose) et les faux plafonds en panneaux contreplaqué, y compris les finitions décoratives anti-feu et résistantes à l'humidité.</p>
+      </div>
+      <div class="info-card">
+        <h4><span class="material-symbols-outlined">task_alt</span> Notre méthode</h4>
+        <p>Prise de mesures sur site, conseil technique, fabrication soignée en atelier puis pose par notre équipe. Chaque projet est suivi du premier appel jusqu'à la remise des clés.</p>
+      </div>
+      <div class="center-cta">
+        <button class="btn btn-orange btn-full" onclick="showScreen('devis')"><span class="material-symbols-outlined">description</span> Demander un devis</button>
+      </div>
+    </section>
+
+    <!-- ---------- SERVICES ---------- -->
+    <section id="screen-services" class="screen">
+      <div class="screen-head">
+        <div class="eyebrow-icon"><span class="material-symbols-outlined">roofing</span></div>
+        <h2>Nos services</h2>
+        <p>Deux métiers, un seul niveau d'exigence.</p>
+      </div>
+
+      <!-- Carte Charpente Bois -->
+      <div class="service-card">
+        <div class="service-top">
+          <div class="ic"><span class="material-symbols-outlined">roofing</span></div>
+          <div>
+            <h3>Charpente Bois</h3>
+          </div>
+        </div>
+        <div class="service-body">
+          <p>De la conception des plans à la fabrication en atelier jusqu'à la pose sur chantier, nous réalisons des charpentes bois solides, précises et durables, adaptées à chaque toiture.</p>
+        </div>
+        <div class="tag-row">
+          <span class="tag-chip">Conception</span>
+          <span class="tag-chip">Fabrication</span>
+          <span class="tag-chip">Pose</span>
+        </div>
+        <div class="media-row"><!-- Pour chaque vidéo : collez le lien YouTube (ou son identifiant) dans data-yt="" -->
+          <div class="photo-card" onclick="openLightbox(this)">
+            <img src="images/img2.jpg" alt="Charpente bois — réalisation" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Photo à ajouter</p></div>
+          </div>
+          <div class="photo-card" onclick="openLightbox(this)">
+            <img src="images/img2.jpg" alt="Charpente bois — pose" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Photo à ajouter</p></div>
+          </div>
+          <div class="photo-card video-card" data-yt="" onclick="openLightbox(this)">
+            <img src="images/img17.jpg" alt="Vidéo charpente bois" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder"><span class="material-symbols-outlined">videocam</span><p>Lien YouTube à ajouter</p></div>
+            <div class="play"><span class="material-symbols-outlined">play_arrow</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carte Faux Plafonds Premium -->
+      <div class="service-card">
+        <div class="service-top">
+          <div class="ic"><span class="material-symbols-outlined">view_comfy_alt</span></div>
+          <div>
+            <h3>Faux Plafonds Premium</h3>
+          </div>
+        </div>
+        <div class="service-body">
+          <p>Nos faux plafonds en panneaux contreplaqué offrent un rendu décoratif haut de gamme, avec une résistance renforcée au feu et à l'humidité — idéals pour les intérieurs modernes et exigeants.</p>
+        </div>
+        <div class="tag-row">
+          <span class="tag-chip">Panneaux contreplaqué</span>
+          <span class="tag-chip">Décoratif</span>
+          <span class="tag-chip">Anti-feu</span>
+          <span class="tag-chip">Résistant à l'humidité</span>
+        </div>
+        <div class="media-row">
+          <div class="photo-card" onclick="openLightbox(this)">
+            <img src="images/img5.jpg" alt="Faux plafond décoratif" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Photo à ajouter</p></div>
+          </div>
+          <div class="photo-card" onclick="openLightbox(this)">
+            <img src="images/img16.jpg" alt="Faux plafond anti-feu" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Photo à ajouter</p></div>
+          </div>
+          <div class="photo-card" onclick="openLightbox(this)">
+            <img src="images/img14.jpg" alt="Faux plafond résistant humidité" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Photo à ajouter</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="center-cta">
+        <button class="btn btn-orange btn-full" onclick="showScreen('devis')"><span class="material-symbols-outlined">description</span> Demander un devis</button>
+      </div>
+    </section>
+
+    <!-- ---------- RÉALISATIONS ---------- -->
+    <section id="screen-realisations" class="screen">
+      <div class="screen-head">
+        <div class="eyebrow-icon"><span class="material-symbols-outlined">photo_camera</span></div>
+        <h2>Réalisations</h2>
+        <p>Nos chantiers de charpente bois et de faux plafonds, en images.</p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="avant-apres" onclick="setRealisationsTab('avant-apres')"><span class="material-symbols-outlined">compare</span> Avant / Après</button>
+        <button class="tab-btn" data-tab="galerie" onclick="setRealisationsTab('galerie')"><span class="material-symbols-outlined">collections</span> Galerie</button>
+        <button class="tab-btn" data-tab="videos" onclick="setRealisationsTab('videos')"><span class="material-symbols-outlined">play_circle</span> Vidéos</button>
+      </div>
+
+      <!-- Avant / Après -->
+      <div class="tab-panel active" id="tab-avant-apres">
+        <div class="compare-block">
+          <div class="compare-imgs">
+            <div class="photo-card" onclick="openLightbox(this)"><img src="images/ch2.jpg" alt="Avant travaux" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Avant</p></div></div>
+            <div class="photo-card" onclick="openLightbox(this)"><img src="images/ch1.jpg" alt="Après travaux" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Après</p></div></div>
+          </div>
+          <div class="compare-label"><span>AVANT</span><span>APRÈS</span></div>
+          <p class="compare-caption">Charpente bois — rénovation de toiture complète.</p>
+        </div>
+
+<div class="compare-block">
+          <div class="compare-imgs">
+            <div class="photo-card" onclick="openLightbox(this)"><img src="images/img20.jpg" alt="Avant plafond" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Avant</p></div></div>
+            <div class="photo-card" onclick="openLightbox(this)"><img src="images/img19.jpg" alt="Après plafond" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Après</p></div></div>
+          </div>
+          <div class="compare-label"><span>AVANT</span><span>APRÈS</span></div>
+          <p class="compare-caption">Pose d'un plafond en panneaux de contreplaqué a galim dans les bamboutos.</p>
+        </div>
+        
+        <div class="compare-block">
+          <div class="compare-imgs">
+            <div class="photo-card" onclick="openLightbox(this)"><img src="images/img12.jpg" alt="Avant plafond" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Avant</p></div></div>
+            <div class="photo-card" onclick="openLightbox(this)"><img src="images/img15.jpg" alt="Après plafond" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Après</p></div></div>
+          </div>
+          <div class="compare-label"><span>AVANT</span><span>APRÈS</span></div>
+          <p class="compare-caption">Pose d'un faux plafond décoratif premium.</p>
+        </div>
+<div class="compare-block">
+          <div class="compare-imgs">
+            <div class="photo-card" onclick="openLightbox(this)"><img src="images/todah1.jpg" alt="Avant plafond" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Avant</p></div></div>
+            <div class="photo-card" onclick="openLightbox(this)"><img src="images/todah2.jpg" alt="Après plafond" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Après</p></div></div>
+          </div>
+          <div class="compare-label"><span>AVANT</span><span>APRÈS</span></div>
+          <p class="compare-caption">Pose d'un plafond todah decore.</p>
+        </div>
+        
+      </div>
+
+      <!-- Galerie -->
+      <div class="tab-panel" id="tab-galerie">
+        <div class="gallery-grid">
+          <div class="photo-card" onclick="openLightbox(this)"><img src="images/img2.jpg" alt="Réalisation 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Photo à ajouter</p></div></div>
+          <div class="photo-card" onclick="openLightbox(this)"><img src="images/img6.jpg" alt="Réalisation 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Photo à ajouter</p></div></div>
+          <div class="photo-card" onclick="openLightbox(this)"><img src="images/img8.jpg" alt="Réalisation 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Photo à ajouter</p></div></div>
+          <div class="photo-card" onclick="openLightbox(this)"><img src="images/img16.jpg" alt="Réalisation 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Photo à ajouter</p></div></div>
+          <div class="photo-card" onclick="openLightbox(this)"><img src="images/img13.jpg" alt="Réalisation 5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Photo à ajouter</p></div></div>
+          <div class="photo-card" onclick="openLightbox(this)"><img src="images/img11.jpg" alt="Réalisation 6" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">image</span><p>Photo à ajouter</p></div></div>
+        </div>
+      </div>
+
+      <!-- Vidéos -->
+      <div class="tab-panel" id="tab-videos">
+        <!-- Pour chaque vidéo : collez le lien YouTube (ou son identifiant) dans data-yt="" -->
+        <div class="gallery-grid">
+          <div class="photo-card video-card" data-yt="" onclick="openLightbox(this)"><img src="images/moderne.jpg" alt="Vidéo chantier 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">videocam</span><p>Lien YouTube à ajouter</p></div><div class="play"><span class="material-symbols-outlined">play_arrow</span></div></div>
+          <div class="photo-card video-card" data-yt="" onclick="openLightbox(this)"><img src="images/moderne.jpg" alt="Vidéo chantier 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><div class="photo-placeholder"><span class="material-symbols-outlined">videocam</span><p>Lien YouTube à ajouter</p></div><div class="play"><span class="material-symbols-outlined">play_arrow</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- ACTUALITÉS ---------- -->
+    <section id="screen-actualites" class="screen">
+      <div class="screen-head">
+        <div class="eyebrow-icon"><span class="material-symbols-outlined">campaign</span></div>
+        <h2>Actualités</h2>
+        <p>Les dernières nouvelles d'Express Construction Bois.</p>
+      </div>
+      <div class="news-card">
+        <div class="news-ic"><span class="material-symbols-outlined">construction</span></div>
+        <div>
+          <div class="news-date">Chantier en cours</div>
+          <h4>Nouveaux projets de charpente en cours</h4>
+          <p>Notre équipe est actuellement mobilisée sur plusieurs chantiers de charpente bois et de faux plafonds.</p>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-ic"><span class="material-symbols-outlined">new_releases</span></div>
+        <div>
+          <div class="news-date">Nouveauté</div>
+          <h4>Faux plafonds anti-feu et anti-humidité</h4>
+          <p>Découvrez notre gamme de plafonds décoratifs premium, pensés pour résister au feu et à l'humidité.</p>
+        </div>
+      </div>
+      <div class="center-cta">
+        <button class="btn btn-wa btn-full" onclick="openWhatsApp('Bonjour Express Construction Bois. Je souhaite en savoir plus sur vos actualités.')"><span class="material-symbols-outlined">chat</span> Nous écrire sur WhatsApp</button>
+      </div>
+    </section>
+
+    <!-- ---------- HUB : CALCULER VOTRE DEVIS ---------- -->
+    <section id="screen-estim-hub" class="screen">
+      <div class="screen-head">
+        <div class="eyebrow-icon"><span class="material-symbols-outlined">calculate</span></div>
+        <h2>Calculer votre devis</h2>
+        <p>Choisissez le service concerné, le montant s'affiche instantanément.</p>
+      </div>
+      <div class="estim-hub-list">
+        <button class="estim-hub-card" onclick="showScreen('estim-todah')">
+          <div class="num-badge">1</div>
+          <div class="ic"><span class="material-symbols-outlined">local_fire_department</span></div>
+          <div class="info">
+            <div class="t">Plafond anti-feu &amp; anti-humidité (TODAH)</div>
+            <div class="s">Devis automatique détaillé</div>
+          </div>
+          <span class="material-symbols-outlined chev">chevron_right</span>
+        </button>
+
+        <button class="estim-hub-card" onclick="showScreen('estim-cp')">
+          <div class="num-badge">2</div>
+          <div class="ic"><span class="material-symbols-outlined">view_comfy_alt</span></div>
+          <div class="info">
+            <div class="t">Plafond styles placo</div>
+            <div class="s">Devis automatique détaillé</div>
+          </div>
+          <span class="material-symbols-outlined chev">chevron_right</span>
+        </button>
+
+        <button class="estim-hub-card soon" onclick="showScreen('estim-avenir')">
+          <div class="num-badge">3</div>
+          <div class="ic"><span class="material-symbols-outlined">upcoming</span></div>
+          <div class="info">
+            <div class="t">Charpente Bois</div>
+            <div class="s">Bientôt disponible</div>
+          </div>
+          <span class="material-symbols-outlined chev">chevron_right</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ---------- ESTIMATEUR PLAFOND ANTI-FEU & ANTI-HUMIDITÉ (TODAH) ---------- -->
+    <section id="screen-estim-todah" class="screen">
+      <div class="screen-head">
+        <div class="eyebrow-icon"><span class="material-symbols-outlined">local_fire_department</span></div>
+        <h2>Estimateur plafond TODAH</h2>
+        <p>Devis détaillé et automatique pour la pose d'un plafond anti-feu &amp; anti-humidité.</p>
+      </div>
+
+      <div class="cp-estimator-wrap">
+        <div class="cp-container">
+          <div class="cp-header">
+            <h2>EXPRESS CONSTRUCTION BOIS</h2>
+            <p>TEL: 672 04 14 52 / 693 68 28 49 — Devis estimatif plafond TODAH</p>
+          </div>
+
+          <div class="cp-input-group">
+            <label for="todah-surface">Surface (m²) :</label>
+            <input type="number" id="todah-surface" placeholder="Ex : 50" min="0" oninput="calculerDevisTODAH()">
+          </div>
+
+          <div class="cp-table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>N°</th>
+                  <th>Désignation</th>
+                  <th>Qté</th>
+                  <th>P.U.</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="todah-table-body"><!-- Généré dynamiquement --></tbody>
+            </table>
+          </div>
+
+          <div class="cp-totals-section">
+            <div class="cp-total-row"><span>TOTAL MATÉRIEL :</span><span id="todah-total-materiel">0</span></div>
+            <div class="cp-total-row"><span>MAIN D'ŒUVRE :</span><span id="todah-main-oeuvre">0</span></div>
+            <div class="cp-total-row cp-grand-total"><span>NET À PAYER :</span><span id="todah-net-a-payer">0</span></div>
+          </div>
+
+          <button type="button" class="btn btn-wa btn-full" style="margin-top:14px;" onclick="envoyerDevisTODAH()">
+            <span class="material-symbols-outlined">chat</span> Recevoir ce devis sur WhatsApp
+          </button>
+        </div>
+        <p class="form-note" style="margin-top:10px;"><span class="material-symbols-outlined">info</span> Estimation indicative basée sur nos ratios de chantier. Le devis final peut varier selon l'accès au site et les finitions choisies.</p>
+      </div>
+    </section>
+
+    <!-- ---------- CHARPENTE BOIS : BIENTÔT DISPONIBLE ---------- -->
+    <section id="screen-estim-avenir" class="screen">
+      <div class="screen-head">
+        <div class="eyebrow-icon"><span class="material-symbols-outlined">upcoming</span></div>
+        <h2>Bientôt disponible</h2>
+        <p>L'estimateur de devis en direct pour la Charpente Bois arrive très prochainement.</p>
+      </div>
+      <div class="center-cta">
+        <button class="btn btn-wa btn-full" onclick="openWhatsApp('Bonjour Express Construction Bois. Je souhaite un devis pour une charpente bois.')">
+          <span class="material-symbols-outlined">chat</span> Demander un devis sur WhatsApp
+        </button>
+      </div>
+    </section>
+
+    <!-- ---------- ESTIMATEUR DE DEVIS PLAFOND STYLES PLACO EXPRESS ---------- -->
+    <section id="screen-estim-cp" class="screen">
+      <div class="screen-head">
+        <div class="eyebrow-icon"><span class="material-symbols-outlined">calculate</span></div>
+        <h2>Estimateur plafond CP</h2>
+        <p>Devis détaillé et automatique pour la pose d'un plafond en panneaux contreplaqué.</p>
+      </div>
+
+      <div class="cp-estimator-wrap">
+        <div class="cp-container">
+          <div class="cp-header">
+            <h2>EXPRESS CONSTRUCTION BOIS</h2>
+            <p>TEL: 672 04 14 52 / 693 68 28 49 — Devis estimatif plafond en CP</p>
+          </div>
+
+          <div class="cp-input-group">
+            <label for="cp-surface">Surface (m²) :</label>
+            <input type="number" id="cp-surface" placeholder="Ex : 50" min="0" oninput="calculerDevisCP()">
+          </div>
+
+          <div class="cp-table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>N°</th>
+                  <th>Dénomination</th>
+                  <th>Qté</th>
+                  <th>P.U.</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="cp-table-body"><!-- Généré dynamiquement --></tbody>
+            </table>
+          </div>
+
+          <div class="cp-totals-section">
+            <div class="cp-total-row"><span>TOTAL MATÉRIEL :</span><span id="cp-total-materiel">0</span></div>
+            <div class="cp-total-row"><span>MAIN D'ŒUVRE :</span><span id="cp-main-doeuvre">0</span></div>
+            <div class="cp-total-row cp-grand-total"><span>TOTAL GÉNÉRAL :</span><span id="cp-total-general">0</span></div>
+          </div>
+
+          <button type="button" class="btn btn-wa btn-full" style="margin-top:14px;" onclick="envoyerDevisCP()">
+            <span class="material-symbols-outlined">chat</span> Recevoir ce devis sur WhatsApp
+          </button>
+        </div>
+        <p class="form-note" style="margin-top:10px;"><span class="material-symbols-outlined">info</span> Estimation indicative basée sur nos ratios de chantier. Le devis final peut varier selon l'accès au site et les finitions choisies.</p>
+      </div>
+    </section>
+
+    <!-- ---------- DEVIS ---------- -->
+    <section id="screen-devis" class="screen">
+      <div class="screen-head">
+        <div class="eyebrow-icon"><span class="material-symbols-outlined">calculate</span></div>
+        <h2>Estimateur de devis</h2>
+        <p>Choisissez votre service, indiquez la surface : le montant s'affiche instantanément.</p>
+      </div>
+
+      <form class="form-wrap" id="devisForm" onsubmit="return submitDevis(event)">
+
+        <div class="field">
+          <label>1. Choisissez votre service</label>
+          <div class="estimator-options">
+            <input type="radio" name="estim-type" id="e1" value="plafond-antifeu" checked onchange="updateEstimation()">
+            <label for="e1" class="option-card">
+              <div class="option-ic"><span class="material-symbols-outlined">local_fire_department</span></div>
+              <div class="option-info">
+                <span class="option-title">Plafond anti-feu &amp; anti-humidité</span>
+                <span class="option-price">9 000 FCFA / m²</span>
+              </div>
+              <span class="material-symbols-outlined option-check">check_circle</span>
+            </label>
+
+            <input type="radio" name="estim-type" id="e2" value="plafond-cp" onchange="updateEstimation()">
+            <label for="e2" class="option-card">
+              <div class="option-ic"><span class="material-symbols-outlined">view_comfy_alt</span></div>
+              <div class="option-info">
+                <span class="option-title">Faux plafond panneaux contreplaqué</span>
+                <span class="option-price">12 000 FCFA / m²</span>
+              </div>
+              <span class="material-symbols-outlined option-check">check_circle</span>
+            </label>
+
+            <input type="radio" name="estim-type" id="e3" value="charpente" onchange="updateEstimation()">
+            <label for="e3" class="option-card">
+              <div class="option-ic"><span class="material-symbols-outlined">roofing</span></div>
+              <div class="option-info">
+                <span class="option-title">Charpente Bois</span>
+                <span class="option-price">14 000 FCFA / m²</span>
+              </div>
+              <span class="material-symbols-outlined option-check">check_circle</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="estim-surface">2. Surface de votre projet</label>
+          <div class="surface-input">
+            <input id="estim-surface" type="number" inputmode="decimal" min="0" step="0.5" placeholder="Ex : 80" oninput="updateEstimation()">
+            <span class="surface-unit">m²</span>
+          </div>
+        </div>
+
+        <div class="estim-result">
+          <span class="estim-result-label">Estimation pour <b id="estim-service-label">Plafond anti-feu &amp; anti-humidité</b></span>
+          <div class="estim-total" id="estim-total">0 FCFA</div>
+          <div class="estim-detail" id="estim-detail">0 m² × 9 000 FCFA/m²</div>
+        </div>
+
+        <div class="field">
+          <label for="d-name">3. Vos coordonnées (optionnel)</label>
+          <input id="d-name" type="text" placeholder="Votre nom">
+        </div>
+        <div class="field">
+          <input id="d-phone" type="tel" placeholder="Numéro de téléphone (ex : 6XX XXX XXX)">
+        </div>
+        <div class="field">
+          <textarea id="d-msg" placeholder="Précisions sur votre projet (localisation, délai...)"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-wa btn-full btn-lg"><span class="material-symbols-outlined">chat</span> Recevoir ce devis sur WhatsApp</button>
+        <p class="form-note"><span class="material-symbols-outlined">info</span> Estimation indicative, calculée automatiquement selon la surface saisie. Envoyée directement sur WhatsApp, aucune donnée n'est stockée sur ce site.</p>
+      </form>
+    </section>
+
+    <!-- ---------- AVIS ---------- -->
+    <section id="screen-avis" class="screen">
+      <div class="screen-head">
+
+        <div class="eyebrow-icon"><span class="material-symbols-outlined">star</span></div>
+        <h2>Avis clients</h2>
+        <p>Ce que nos clients disent de nos charpentes et faux plafonds.</p>
+      </div>
+
+<div class="review-card">
+  <div class="review-top">
+    <div class="avatar">JR</div>
+    <div>
+      <div class="review-name">Jean R.</div>
+      <div class="review-loc">Charpente bois</div>
+    </div>
+  </div>
+  <div class="stars">★★★★★</div>
+  <p>Travail soigné et respect des délais pour notre charpente. Équipe très professionnelle du début à la fin.</p>
+  
+  <!-- BOUTON AJOUTÉ -->
+  <button class="toggle-photos-btn" onclick="toggleChantierPhotos(this)">
+    🖼️ Voir les photos du chantier (3)
+  </button>
+
+  <!-- GALERIE AJOUTÉE (Modifie les noms des images selon tes fichiers) -->
+  <div class="chantier-gallery" style="display: none;">
+    <div class="gallery-grid-multi">
+      <img src="images/img4.jpg" alt="Chantier Jean R. 1" loading="lazy">
+      <img src="images/ch1.jpg" alt="Chantier Jean R. 2" loading="lazy">
+      <img src="images/img10.jpg" alt="Chantier Jean R. 3" loading="lazy">
+    </div>
+  </div>
+</div>
+
+      
+      <div class="review-card">
+        <div class="review-top">
+          <div class="avatar">JR</div>
+          <div>
+            <div class="review-name">Jean R.</div>
+            <div class="review-loc">Charpente bois</div>
+          </div>
+        </div>
+        <div class="stars">★★★★★</div>
+        <p>Travail soigné et respect des délais pour notre charpente. Équipe très professionnelle du début à la fin.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-top">
+          <div class="avatar">MN</div>
+          <div>
+            <div class="review-name">Marie N.</div>
+            <div class="review-loc">Faux plafond décoratif</div>
+          </div>
+        </div>
+        <div class="stars">★★★★★</div>
+        <p>Le rendu du faux plafond dépasse nos attentes, un vrai résultat premium. Je recommande sans hésiter.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-top">
+          <div class="avatar">PT</div>
+          <div>
+            <div class="review-name">Paul T.</div>
+            <div class="review-loc">Charpente + Faux plafond</div>
+          </div>
+        </div>
+        <div class="stars">★★★★★</div>
+        <p>Réactifs sur WhatsApp, devis clair et chantier bien organisé. Très satisfait des deux prestations.</p>
+      </div>
+      <div class="center-cta">
+        <button class="btn btn-orange btn-full" onclick="showScreen('devis')"><span class="material-symbols-outlined">description</span> Demander un devis</button>
+      </div>
+    </section>
+
+    <!-- ---------- CONTACT ---------- -->
+    <section id="screen-contact" class="screen">
+      <div class="screen-head">
+        <div class="eyebrow-icon"><span class="material-symbols-outlined">call</span></div>
+        <h2>Contact</h2>
+        <p>Nous sommes disponibles pour discuter de votre projet.</p>
+      </div>
+
+      <a class="contact-row" href="tel:+237672041452">
+        <div class="ic orange"><span class="material-symbols-outlined">call</span></div>
+        <div><div class="lbl">Téléphone 1</div><div class="val">672 04 14 52</div></div>
+      </a>
+      <a class="contact-row" href="tel:+237693682849">
+        <div class="ic orange"><span class="material-symbols-outlined">call</span></div>
+        <div><div class="lbl">Téléphone 2</div><div class="val">693 68 28 49</div></div>
+      </a>
+      <div class="contact-row" onclick="openWhatsApp()">
+        <div class="ic wa"><span class="material-symbols-outlined">chat</span></div>
+        <div><div class="lbl">WhatsApp</div><div class="val">Discuter maintenant</div></div>
+      </div>
+      <!-- Modifiez la zone d'intervention et les horaires selon vos informations réelles -->
+      <div class="contact-row">
+        <div class="ic orange"><span class="material-symbols-outlined">location_on</span></div>
+        <div><div class="lbl">Zone d'intervention</div><div class="val">Cameroun</div></div>
+      </div>
+      <div class="contact-row">
+        <div class="ic orange"><span class="material-symbols-outlined">schedule</span></div>
+        <div><div class="lbl">Disponibilité</div><div class="val">Lun – Sam, 8h – 18h</div></div>
+      </div>
+
+      <div class="map-block">
+        <span class="material-symbols-outlined">map</span>
+        <span>Carte / localisation à intégrer</span>
+      </div>
+
+      <div class="center-cta">
+        <button class="btn btn-wa btn-full btn-lg" onclick="openWhatsApp()"><span class="material-symbols-outlined">chat</span> Nous écrire sur WhatsApp</button>
+      </div>
+      <div class="footer-mini">© Express Construction Bois — Tous droits réservés</div>
+    </section>
+
+  </main>
+
+  <!-- ===================== NAVIGATION BAS ===================== -->
+  <nav class="bottomnav">
+    <button data-screen="home" class="active" onclick="showScreen('home')">
+      <span class="material-symbols-outlined">home</span><span class="lbl">Accueil</span>
+    </button>
+    <button data-screen="services" onclick="showScreen('services')">
+      <span class="material-symbols-outlined">roofing</span><span class="lbl">Services</span>
+    </button>
+    <button data-screen="realisations" onclick="showScreen('realisations')">
+      <span class="material-symbols-outlined">photo_camera</span><span class="lbl">Réalisations</span>
+    </button>
+    <button data-screen="avis" onclick="showScreen('avis')">
+      <span class="material-symbols-outlined">star</span><span class="lbl">Avis</span>
+    </button>
+    <button data-screen="contact" onclick="showScreen('contact')">
+      <span class="material-symbols-outlined">call</span><span class="lbl">Contact</span>
+    </button>
+  </nav>
+
+</div>
+
+<!-- ===================== LIGHTBOX PLEIN ÉCRAN ===================== -->
+<div class="lightbox" id="lightbox" onclick="if(event.target===this) closeLightbox();">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Fermer">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <button class="lightbox-arrow lightbox-arrow-left" id="lightbox-prev" onclick="event.stopPropagation(); lbPrev();" aria-label="Précédent">
+    <span class="material-symbols-outlined">chevron_left</span>
+  </button>
+  <button class="lightbox-arrow lightbox-arrow-right" id="lightbox-next" onclick="event.stopPropagation(); lbNext();" aria-label="Suivant">
+    <span class="material-symbols-outlined">chevron_right</span>
+  </button>
+  <div class="lightbox-media" id="lightbox-media">
+    <img id="lightbox-img" src="" alt="Aperçu plein écran">
+    <div class="lightbox-yt-wrap" id="lightbox-yt-wrap" style="display:none;">
+      <iframe id="lightbox-yt" src="" title="Vidéo Express Construction Bois" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="lightbox-fallback" id="lightbox-fallback">
+      <span class="material-symbols-outlined">hide_image</span>
+      <p id="lightbox-fallback-text">Média à ajouter</p>
+    </div>
+  </div>
+  <div class="lightbox-counter" id="lightbox-counter">1 / 1</div>
+</div>
+
+<script>
+// ==========================================================================
+// Express Construction Bois — logique de l'application
+// ==========================================================================
+
+// Numéros WhatsApp (format international Cameroun +237)
+var WA_NUMBER = "237672041452";
+var WA_DEFAULT_MSG = "Bonjour Express Construction Bois. Je souhaite obtenir un devis pour mon projet.";
+
+function openWhatsApp(customMsg){
+  var msg = customMsg || WA_DEFAULT_MSG;
+  var url = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
+  window.open(url, "_blank");
+}
+
+// Navigation entre écrans (façon application Android)
+var screens = document.querySelectorAll(".screen");
+var navButtons = document.querySelectorAll(".bottomnav button[data-screen]");
+
+function showScreen(name, tab){
+  screens.forEach(function(s){
+    s.classList.toggle("active", s.id === "screen-" + name);
+  });
+  navButtons.forEach(function(b){
+    b.classList.toggle("active", b.dataset.screen === name);
+  });
+  var target = document.getElementById("screen-" + name);
+  if(target){ target.scrollTop = 0; }
+  if(name === "realisations" && tab){ setRealisationsTab(tab); }
+}
+
+// Onglets de l'écran Réalisations
+function setRealisationsTab(tab){
+  document.querySelectorAll(".tab-btn").forEach(function(b){
+    b.classList.toggle("active", b.dataset.tab === tab);
+  });
+  document.querySelectorAll(".tab-panel").forEach(function(p){
+    p.classList.toggle("active", p.id === "tab-" + tab);
+  });
+}
+
+// ---------- Estimateur de devis en direct ----------
+var ESTIM_PRICES = {
+  "plafond-antifeu": 9000,
+  "plafond-cp": 12000,
+  "charpente": 14000
+};
+var ESTIM_LABELS = {
+  "plafond-antifeu": "Plafond anti-feu & anti-humidité",
+  "plafond-cp": "Faux plafond panneaux contreplaqué",
+  "charpente": "Charpente Bois"
+};
+
+function formatFCFA(n){
+  var rounded = Math.max(0, Math.round(n || 0));
+  var digits = rounded.toString().split("").reverse();
+  var out = [];
+  for(var i = 0; i < digits.length; i++){
+    if(i > 0 && i % 3 === 0) out.push(" ");
+    out.push(digits[i]);
+  }
+  return out.reverse().join("") + " FCFA";
+}
+
+function getEstimSelection(){
+  var checked = document.querySelector('input[name="estim-type"]:checked');
+  var type = checked ? checked.value : "plafond-antifeu";
+  var surface = parseFloat(document.getElementById("estim-surface").value) || 0;
+  var price = ESTIM_PRICES[type];
+  return { type: type, label: ESTIM_LABELS[type], surface: surface, price: price, total: surface * price };
+}
+
+function updateEstimation(){
+  var s = getEstimSelection();
+  document.getElementById("estim-service-label").textContent = s.label;
+  document.getElementById("estim-total").textContent = formatFCFA(s.total);
+  document.getElementById("estim-detail").textContent = s.surface + " m² × " + formatFCFA(s.price) + "/m²";
+}
+
+// Formulaire de devis -> envoi direct sur WhatsApp avec l'estimation calculée
+function submitDevis(e){
+  e.preventDefault();
+  var s = getEstimSelection();
+  var name = document.getElementById("d-name").value.trim();
+  var phone = document.getElementById("d-phone").value.trim();
+  var details = document.getElementById("d-msg").value.trim();
+
+  var msg = "Bonjour Express Construction Bois.\n" +
+            "Je souhaite obtenir un devis pour mon projet.\n\n" +
+            "Service : " + s.label + "\n" +
+            "Surface : " + s.surface + " m²\n" +
+            "Estimation : " + formatFCFA(s.total) +
+            (name ? ("\nNom : " + name) : "") +
+            (phone ? ("\nTéléphone : " + phone) : "") +
+            (details ? ("\nDétails : " + details) : "");
+
+  openWhatsApp(msg);
+  return false;
+}
+
+// Initialise l'affichage de l'estimation dès le chargement
+updateEstimation();
+
+// ---------- Estimateur plafond CP (devis détaillé) ----------
+var CP_BASE_ITEMS = [
+  { denom: "Lattes de scierie", qty: 55, pu: 1800, scale: true },
+  { denom: "Contre plaque 8mm", qty: 21, pu: 7000, scale: true },
+  { denom: "Bande a joint", qty: 1, pu: 7000, scale: "bande" },
+  { denom: "Produit traitement", qty: 1, pu: 8000, scale: false },
+  { denom: "Pointe de 80", qty: 1, pu: 4500, scale: true },
+  { denom: "Pointe de 70", qty: 2, pu: 4500, scale: true },
+  { denom: "Pointe de 28", qty: 4, pu: 1000, scale: true },
+  { denom: "Pointe Tok de 80", qty: 4, pu: 1000, scale: true },
+  { denom: "Peinceau de 25", qty: 2, pu: 200, scale: false },
+  { denom: "Couteau a enduit", qty: 2, pu: 1500, scale: false },
+  { denom: "Fevicol original", qty: 3, pu: 3000, scale: true },
+  { denom: "Stucco de lissage (30KG)", qty: 1, pu: 25000, scale: true },
+  { denom: "Papier abrasif (m)", qty: 5, pu: 500, scale: true },
+  { denom: "Sceau de peinture", qty: 1, pu: 17500, scale: true },
+  { denom: "Rouleau a peinture", qty: 2, pu: 1500, scale: false }
+];
+var CP_BASE_SURFACE = 43;
+var CP_BASE_MAIN_DOEUVRE = 140000;
+var cpLastTotals = { surface: 0, totalMateriel: 0, mainDoeuvre: 0, totalGeneral: 0 };
+
+function formatNumberCP(num){
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
+function customRoundCP(val){
+  var intPart = Math.floor(val);
+  var decimalPart = val - intPart;
+  return decimalPart >= 0.6 ? intPart + 1 : intPart;
+}
+
+function calculerDevisCP(){
+  var surfaceInput = document.getElementById("cp-surface").value;
+  var tbody = document.getElementById("cp-table-body");
+
+  if(surfaceInput === "" || parseFloat(surfaceInput) <= 0){
+    tbody.innerHTML = "";
+    CP_BASE_ITEMS.forEach(function(item, index){
+      var tr = document.createElement("tr");
+      tr.innerHTML =
+        "<td>" + (index + 1) + "</td>" +
+        "<td>" + item.denom + "</td>" +
+        '<td style="text-align:center;">0</td>' +
+        '<td style="text-align:right;">' + formatNumberCP(item.pu) + "</td>" +
+        '<td style="text-align:right;">0</td>';
+      tbody.appendChild(tr);
+    });
+    document.getElementById("cp-total-materiel").innerText = "0 FCFA";
+    document.getElementById("cp-main-doeuvre").innerText = "0 FCFA";
+    document.getElementById("cp-total-general").innerText = "0 FCFA";
+    cpLastTotals = { surface: 0, totalMateriel: 0, mainDoeuvre: 0, totalGeneral: 0 };
+    return;
+  }
+
+  var surface = parseFloat(surfaceInput);
+  var ratio = surface / CP_BASE_SURFACE;
+  tbody.innerHTML = "";
+  var totalMateriel = 0;
+  var displayIndex = 1;
+
+  CP_BASE_ITEMS.forEach(function(item){
+    var currentQty = item.qty;
+    if(item.scale === true){
+      var rawQty = item.qty * ratio;
+      currentQty = customRoundCP(rawQty);
+      if(currentQty < 1) currentQty = 1;
+    } else if(item.scale === "bande"){
+      currentQty = Math.ceil(surface / 100);
+      if(currentQty < 1) currentQty = 1;
+    }
+
+    var totalItem = Math.round(currentQty * item.pu);
+    totalMateriel += totalItem;
+
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      "<td>" + displayIndex + "</td>" +
+      "<td>" + item.denom + "</td>" +
+      '<td style="text-align:center;">' + currentQty + "</td>" +
+      '<td style="text-align:right;">' + formatNumberCP(item.pu) + "</td>" +
+      '<td style="text-align:right;">' + formatNumberCP(totalItem) + "</td>";
+    tbody.appendChild(tr);
+    displayIndex++;
+  });
+
+  var mainDoeuvre = Math.round(CP_BASE_MAIN_DOEUVRE * ratio);
+  var totalGeneral = totalMateriel + mainDoeuvre;
+
+  document.getElementById("cp-total-materiel").innerText = formatNumberCP(totalMateriel) + " FCFA";
+  document.getElementById("cp-main-doeuvre").innerText = formatNumberCP(mainDoeuvre) + " FCFA";
+  document.getElementById("cp-total-general").innerText = formatNumberCP(totalGeneral) + " FCFA";
+
+  cpLastTotals = { surface: surface, totalMateriel: totalMateriel, mainDoeuvre: mainDoeuvre, totalGeneral: totalGeneral };
+}
+
+function envoyerDevisCP(){
+  if(!cpLastTotals.surface){
+    var champ = document.getElementById("cp-surface");
+    champ.focus();
+    champ.style.borderColor = "#e02424";
+    return;
+  }
+  var msg = "Bonjour Express Construction Bois.\n" +
+            "Je souhaite obtenir un devis pour un plafond en panneaux contreplaqué.\n\n" +
+            "Surface : " + cpLastTotals.surface + " m²\n" +
+            "Total matériel : " + formatNumberCP(cpLastTotals.totalMateriel) + " FCFA\n" +
+            "Main d'œuvre : " + formatNumberCP(cpLastTotals.mainDoeuvre) + " FCFA\n" +
+            "Total général : " + formatNumberCP(cpLastTotals.totalGeneral) + " FCFA";
+  openWhatsApp(msg);
+}
+
+calculerDevisCP();
+
+// ---------- Estimateur plafond TODAH (anti-feu & anti-humidité) ----------
+var TODAH_SURFACE_BASE = 105;
+var TODAH_BASE_ITEMS = [
+  { id: 1, designation: "Lattes", qteBase: 105, pu: 2100 },
+  { id: 2, designation: "Plafond en m²", qteBase: 110, pu: 3500 },
+  { id: 3, designation: "Bandes à joint", qteBase: 2, pu: 7000 },
+  { id: 4, designation: "Pointes de 80", qteBase: 2, pu: 4500 },
+  { id: 5, designation: "Pointes de 28", qteBase: 6, pu: 1500 },
+  { id: 6, designation: "Pointe de 70", qteBase: 2, pu: 4500 },
+  { id: 7, designation: "Pointes tok de 80", qteBase: 5, pu: 1500 },
+  { id: 8, designation: "Cole a bois", qteBase: 6, pu: 1500 },
+  { id: 10, designation: "Pinceau de 30", qteBase: 2, pu: 250 },
+  { id: 11, designation: "Peau de peinture", qteBase: 2, pu: 20000 },
+  { id: 12, designation: "Rouleau a peinture", qteBase: 1, pu: 1000 }
+];
+var TODAH_MAIN_OEUVRE_BASE = 200000;
+var todahLastTotals = { surface: 0, totalMateriel: 0, mainOeuvre: 0, netAPayer: 0 };
+
+function formatNumberTODAH(num){
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
+function customRoundTODAH(val){
+  var intPart = Math.floor(val);
+  var decPart = val - intPart;
+  return decPart >= 0.6 ? Math.ceil(val) : intPart;
+}
+
+function afficherTableauVideTODAH(){
+  var tbody = document.getElementById("todah-table-body");
+  tbody.innerHTML = "";
+  TODAH_BASE_ITEMS.forEach(function(item){
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      "<td>" + item.id + "</td>" +
+      '<td style="text-align:left;">' + item.designation + "</td>" +
+      "<td><b>0</b></td>" +
+      "<td>" + formatNumberTODAH(item.pu) + "</td>" +
+      "<td><b>0</b></td>";
+    tbody.appendChild(tr);
+  });
+  document.getElementById("todah-total-materiel").innerText = "0";
+  document.getElementById("todah-main-oeuvre").innerText = "0";
+  document.getElementById("todah-net-a-payer").innerText = "0";
+  todahLastTotals = { surface: 0, totalMateriel: 0, mainOeuvre: 0, netAPayer: 0 };
+}
+
+function calculerDevisTODAH(){
+  var surfaceInputVal = document.getElementById("todah-surface").value;
+
+  if(surfaceInputVal === "" || isNaN(surfaceInputVal) || parseFloat(surfaceInputVal) <= 0){
+    afficherTableauVideTODAH();
+    return;
+  }
+
+  var surfaceActuelle = parseFloat(surfaceInputVal);
+  var tbody = document.getElementById("todah-table-body");
+  tbody.innerHTML = "";
+  var totalMateriel = 0;
+
+  TODAH_BASE_ITEMS.forEach(function(item){
+    var qteCalculee = 0;
+
+    if(item.designation.indexOf("Peau de peinture") !== -1){
+      if(surfaceActuelle <= 60){
+        qteCalculee = 1;
+      } else {
+        var valProp1 = (2 / TODAH_SURFACE_BASE) * surfaceActuelle;
+        qteCalculee = Math.max(2, customRoundTODAH(valProp1));
+      }
+    } else if(item.designation.indexOf("Rouleau a peinture") !== -1){
+      if(surfaceActuelle <= 150){
+        qteCalculee = 1;
+      } else {
+        var valProp2 = (1 / TODAH_SURFACE_BASE) * surfaceActuelle;
+        qteCalculee = Math.max(2, customRoundTODAH(valProp2));
+      }
+    } else if(item.designation.indexOf("Cole a bois") !== -1){
+      qteCalculee = (surfaceActuelle <= 20) ? 1 : (1 + Math.ceil((surfaceActuelle - 20) / 25));
+    } else if(item.designation.indexOf("Pointes de 28") !== -1){
+      qteCalculee = (surfaceActuelle <= 15) ? 1 : (1 + Math.ceil((surfaceActuelle - 20) / 15));
+    } else {
+      var valBrute = (item.qteBase / TODAH_SURFACE_BASE) * surfaceActuelle;
+      qteCalculee = customRoundTODAH(valBrute);
+    }
+
+    var totalLigne = qteCalculee * item.pu;
+    totalMateriel += totalLigne;
+
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      "<td>" + item.id + "</td>" +
+      '<td style="text-align:left;">' + item.designation + "</td>" +
+      "<td><b>" + qteCalculee + "</b></td>" +
+      "<td>" + formatNumberTODAH(item.pu) + "</td>" +
+      "<td><b>" + formatNumberTODAH(totalLigne) + "</b></td>";
+    tbody.appendChild(tr);
+  });
+
+  var mainOeuvreActuelle = surfaceActuelle > 0
+    ? customRoundTODAH((TODAH_MAIN_OEUVRE_BASE / TODAH_SURFACE_BASE) * surfaceActuelle / 1000) * 1000
+    : 0;
+  var netAPayer = totalMateriel + mainOeuvreActuelle;
+
+  document.getElementById("todah-main-oeuvre").innerText = formatNumberTODAH(mainOeuvreActuelle);
+  document.getElementById("todah-total-materiel").innerText = formatNumberTODAH(totalMateriel);
+  document.getElementById("todah-net-a-payer").innerText = formatNumberTODAH(netAPayer);
+
+  todahLastTotals = { surface: surfaceActuelle, totalMateriel: totalMateriel, mainOeuvre: mainOeuvreActuelle, netAPayer: netAPayer };
+}
+
+function envoyerDevisTODAH(){
+  if(!todahLastTotals.surface){
+    var champ = document.getElementById("todah-surface");
+    champ.focus();
+    champ.style.borderColor = "#e02424";
+    return;
+  }
+  var msg = "Bonjour Express Construction Bois.\n" +
+            "Je souhaite obtenir un devis pour un plafond anti-feu & anti-humidité (TODAH).\n\n" +
+            "Surface : " + todahLastTotals.surface + " m²\n" +
+            "Total matériel : " + formatNumberTODAH(todahLastTotals.totalMateriel) + " FCFA\n" +
+            "Main d'œuvre : " + formatNumberTODAH(todahLastTotals.mainOeuvre) + " FCFA\n" +
+            "Net à payer : " + formatNumberTODAH(todahLastTotals.netAPayer) + " FCFA";
+  openWhatsApp(msg);
+}
+
+afficherTableauVideTODAH();
+
+// Lightbox plein écran avec navigation (swipe / flèches) & vidéos YouTube
+var lbGroup = [];
+var lbIndex = 0;
+
+function lbGetGroup(card){
+  // Regroupe toutes les cartes photo/vidéo situées dans le même bloc (même galerie)
+  var siblings = card.parentElement ? card.parentElement.children : [card];
+  return Array.prototype.filter.call(siblings, function(el){
+    return el.classList && el.classList.contains("photo-card");
+  });
+}
+
+// Extrait un identifiant YouTube depuis un lien complet ou un identifiant déjà brut
+function extractYouTubeId(input){
+  if(!input) return "";
+  input = input.trim();
+  var patterns = [
+    /youtu\.be\/([a-zA-Z0-9_-]{6,})/,
+    /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{6,})/,
+    /youtube\.com\/embed\/([a-zA-Z0-9_-]{6,})/,
+    /youtube\.com\/shorts\/([a-zA-Z0-9_-]{6,})/
+  ];
+  for(var i=0;i<patterns.length;i++){
+    var m = input.match(patterns[i]);
+    if(m) return m[1];
+  }
+  if(/^[a-zA-Z0-9_-]{6,}$/.test(input)) return input;
+  return "";
+}
+
+function openLightbox(card){
+  lbGroup = lbGetGroup(card);
+  lbIndex = lbGroup.indexOf(card);
+  if(lbIndex < 0) lbIndex = 0;
+  renderLightbox();
+  document.getElementById("lightbox").classList.add("active");
+}
+
+function renderLightbox(){
+  var card = lbGroup[lbIndex];
+  var imgEl = document.getElementById("lightbox-img");
+  var ytWrap = document.getElementById("lightbox-yt-wrap");
+  var ytFrame = document.getElementById("lightbox-yt");
+  var fallback = document.getElementById("lightbox-fallback");
+  var fallbackText = document.getElementById("lightbox-fallback-text");
+
+  imgEl.style.display = "none";
+  ytWrap.style.display = "none";
+  fallback.style.display = "none";
+  ytFrame.src = "";
+
+  if(card.classList.contains("video-card")){
+    var id = extractYouTubeId(card.dataset.yt || "");
+    if(id){
+      ytFrame.src = "https://www.youtube.com/embed/" + id + "?autoplay=1&rel=0";
+      ytWrap.style.display = "block";
+    } else {
+      fallbackText.textContent = "Vidéo à ajouter (lien YouTube)";
+      fallback.style.display = "flex";
+    }
+  } else {
+    var cardImg = card.querySelector("img");
+    if(cardImg && cardImg.style.display !== "none" && cardImg.getAttribute("src")){
+      imgEl.src = cardImg.getAttribute("src");
+      imgEl.style.display = "block";
+    } else {
+      fallbackText.textContent = "Photo à ajouter";
+      fallback.style.display = "flex";
+    }
+  }
+  updateLightboxNav();
+}
+
+function updateLightboxNav(){
+  var counter = document.getElementById("lightbox-counter");
+  var prevBtn = document.getElementById("lightbox-prev");
+  var nextBtn = document.getElementById("lightbox-next");
+  if(lbGroup.length > 1){
+    counter.style.display = "block";
+    counter.textContent = (lbIndex + 1) + " / " + lbGroup.length;
+    prevBtn.hidden = false;
+    nextBtn.hidden = false;
+  } else {
+    counter.style.display = "none";
+    prevBtn.hidden = true;
+    nextBtn.hidden = true;
+  }
+}
+
+function lbPrev(){
+  if(lbGroup.length < 2) return;
+  lbIndex = (lbIndex - 1 + lbGroup.length) % lbGroup.length;
+  renderLightbox();
+}
+function lbNext(){
+  if(lbGroup.length < 2) return;
+  lbIndex = (lbIndex + 1) % lbGroup.length;
+  renderLightbox();
+}
+
+function closeLightbox(){
+  document.getElementById("lightbox").classList.remove("active");
+  document.getElementById("lightbox-yt").src = "";
+}
+
+// Navigation tactile (swipe gauche/droite)
+(function(){
+  var media = document.getElementById("lightbox-media");
+  var startX = 0, startY = 0, tracking = false;
+  media.addEventListener("touchstart", function(e){
+    startX = e.changedTouches[0].clientX;
+    startY = e.changedTouches[0].clientY;
+    tracking = true;
+  }, {passive:true});
+  media.addEventListener("touchend", function(e){
+    if(!tracking) return;
+    tracking = false;
+    var dx = e.changedTouches[0].clientX - startX;
+    var dy = e.changedTouches[0].clientY - startY;
+    if(Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)){
+      if(dx < 0) lbNext(); else lbPrev();
+    }
+  }, {passive:true});
+})();
+
+document.addEventListener("keydown", function(e){
+  var lb = document.getElementById("lightbox");
+  if(!lb.classList.contains("active")) return;
+  if(e.key === "Escape") closeLightbox();
+  if(e.key === "ArrowRight") lbNext();
+  if(e.key === "ArrowLeft") lbPrev();
+});
+
+// Charge automatiquement les vignettes YouTube dès qu'un lien est renseigné dans data-yt
+document.querySelectorAll(".video-card[data-yt]").forEach(function(card){
+  var id = extractYouTubeId(card.dataset.yt || "");
+  if(id){
+    var img = card.querySelector("img");
+    if(img){ img.src = "https://img.youtube.com/vi/" + id + "/hqdefault.jpg"; }
+  }
+});
+
+// Écran de démarrage
+window.addEventListener("load", function(){
+  setTimeout(function(){
+    var splash = document.getElementById("splash");
+    splash.classList.add("hide");
+    setTimeout(function(){ splash.remove(); }, 500);
+  }, 900);
+});
+
+  function toggleChantierPhotos(button) {
+  const gallery = button.nextElementSibling;
+  if (gallery.style.display === "none" || gallery.style.display === "") {
+    gallery.style.display = "block";
+    button.textContent = "🖼️ Masquer les photos";
+  } else {
+    gallery.style.display = "none";
+    button.textContent = "🖼️ Voir les photos du chantier (3)";
+  }
+}
+// image plein ecran
+  function openModal(imgElement) {
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("img01");
+  modal.style.display = "block";
+  modalImg.src = imgElement.src;
+}
+
+function closeModal() {
+  document.getElementById("imageModal").style.display = "none";
+}
+
+
+  
+</script>
+
+</body>
+</html>
